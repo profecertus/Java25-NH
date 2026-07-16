@@ -1,9 +1,11 @@
 package pe.nh.demo07.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +19,7 @@ import pe.nh.demo07.service.ProductoService;
 import java.net.URI;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,8 +38,13 @@ public class ProductoController {
     @Operation(summary = "Listas los productos",
         description = "Devuelve los productos totals, no acepta filtros"
     )
-    public ResponseEntity<List<Producto>> listar() {
-        return ResponseEntity.ok(this.productoService.listar());
+    public Page<ProductoResponse> listar(
+        @Parameter(description = "Filtro opcional por categoria (ej. tech)")
+        @RequestParam(required = false) String categoria,
+        @Parameter(description = "Paginacion: ?page=0&size=20&sort=precio,desc")
+        Pageable pageable
+    ){
+        return productoService.listar(categoria, pageable);
     }
 
     @PostMapping

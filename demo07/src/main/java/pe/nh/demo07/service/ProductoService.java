@@ -1,7 +1,7 @@
 package pe.nh.demo07.service;
 
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 import pe.nh.demo07.dto.CrearProductoDTO;
 import pe.nh.demo07.dto.ProductoResponse;
@@ -16,8 +16,11 @@ public class ProductoService {
     private ProductoRepository productoRepository;
     private ProductoMapper productoMapper;
 
-    public List<Producto> listar(){
-        return this.productoRepository.findAll();
+    public Page<ProductoResponse> listar(String categoria, Pageable pageable){
+        Page<Producto> pagina = (categoria == null || categoria.isBlank())
+                                ? productoRepository.findAll(pageable)
+                                : productoRepository.findByCategoria(categoria, pageable);
+        return pagina.map(productoMapper::aResponse);
     }
 
     public ProductoResponse crear(CrearProductoDTO dto){
