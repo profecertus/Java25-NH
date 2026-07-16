@@ -11,18 +11,18 @@ import pe.nh.demo07.validation.CategoriaValida;
 @Schema(description="Datos que el cliente envia para crear/actualizar un producto")
 public record CrearProductoDTO(
     @Schema(example="Laptop")
-    @NotBlank(message="El nombre es obligatorio")
-    @Size(min=2, max=100, message="El nombre debe ser mayor 2 menor 100")
+    @NotBlank(message="{validacion.producto.nombre}")
+    @Size(min=2, max=100, message="{validacion.producto.nombre.size}")
     String nombre,
 
     @Schema(example="3000.0")
-    @Positive(message = "El precio debe ser > 0")
-    @DecimalMax(value = "1000000.0", message = "El maximo valor es 1000000")
-    @Digits(integer = 7, fraction = 2, message = "El precio es de 7 enteros y 2 digitos")
+    @Positive(message = "{validacion.producto.precio}")
+    @DecimalMax(value = "1000000.0", message = "{validacion.producto.precio.max}")
+    @Digits(integer = 7, fraction = 2, message = "{validacion.producto.precio.digits}")
     double precio,
 
     @Schema(example="tech")
-    @Size(max = 280, message = "La categoria no puede superar los 280 caracteres")
+    @Size(max = 280, message = "{validacion.producto.categoria.obligatoria}")
     @CategoriaValida
     String categoria
 ){}
