@@ -8,7 +8,7 @@ import jakarta.validation.*;
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.RECORD_COMPONENT})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CategoriaValida {
-    String message() default "Categoria No Valida";
+    String message() default "{validacion.producto.categoria}";
 
     Class<?>[] groups() default {};
 
